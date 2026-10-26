@@ -1,1 +1,306 @@
 
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mess Manager Pro</title>
+<style>
+:root{--green:#176b45;--light:#edf7f0;--gold:#e8b64b;--ink:#203329}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6f4;color:var(--ink)}
+header{background:linear-gradient(135deg,#104b34,#21845a);color:white;padding:23px 17px}
+header h1{margin:0 0 7px;font-size:25px}
+header p{margin:0;font-size:13px;color:#d9f3e4}
+.wrap{max-width:1050px;margin:auto;padding:14px}
+.notice{background:#fff7df;border:1px solid #efd58b;padding:11px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.stat,.panel{background:white;border-radius:13px;padding:15px;box-shadow:0 2px 8px #163e2710}
+.stat span{font-size:12px;color:#64766b}.stat strong{display:block;font-size:25px;margin-top:7px;color:var(--green)}
+nav{display:flex;gap:7px;overflow-x:auto;padding:3px 0 12px}
+nav button{white-space:nowrap;background:#e1eae4;color:#244b36}
+button{border:0;border-radius:8px;padding:11px 13px;font-weight:700;cursor:pointer;background:var(--green);color:white}
+button.secondary{background:#e6eee8;color:#254c37}
+button.danger{background:#a83333}
+button.gold{background:#f0c45e;color:#382b0b}
+.tab{display:none}.tab.active{display:block}
+.panel{margin-bottom:13px}
+h2{font-size:19px;margin:0 0 14px}
+h3{font-size:16px;margin:14px 0 9px}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px;border:1px solid #cbd8cf;border-radius:8px;background:white;font:inherit;color:#203329}
+textarea{min-height:70px}
+.field{margin-bottom:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row{display:flex;gap:7px;align-items:center}
+.row>*{flex:1;min-width:0}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.small{font-size:12px;color:#64766b;line-height:1.5}
+.item{padding:12px 0;border-bottom:1px solid #e4ebe5}
+.item:last-child{border-bottom:0}
+.item strong{display:block;margin-bottom:5px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{text-align:left;padding:10px 7px;border-bottom:1px solid #e3eae4}
+th{background:#edf5ef}
+.tablewrap{overflow-x:auto}
+.empty{padding:16px;background:#f5f8f5;border-radius:8px;color:#64766b;font-size:13px}
+footer{text-align:center;font-size:12px;color:#718077;padding:20px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:1fr 1fr}.wrap{padding:22px}.stat strong{font-size:29px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🍲 Mess Manager Pro</h1>
+  <p>Mess ka menu, recipe, ration aur stock — ek hi jagah</p>
+</header>
+<div class="wrap">
+  <div class="notice"><b>Demo / privacy:</b> Data isi browser ke local storage mein save hota hai. App data clear hone ya device badalne par data kho sakta hai. Abhi sensitive jawan details ya official records na daalein. Ration ki matra aapki recipe mein bhari gayi values par nirbhar hai.</div>
+
+  <div class="stats">
+    <div class="stat"><span>Jawan / servings</span><strong id="sMen">10</strong></div>
+    <div class="stat"><span>Recipes</span><strong id="sRecipes">0</strong></div>
+    <div class="stat"><span>Menu entries</span><strong id="sMenu">0</strong></div>
+    <div class="stat"><span>Stock items</span><strong id="sStock">0</strong></div>
+  </div>
+
+  <nav>
+    <button onclick="showTab('home',this)">🏠 Dashboard</button>
+    <button onclick="showTab('recipes',this)">🍛 Recipes</button>
+    <button onclick="showTab('menu',this)">📅 Weekly Menu</button>
+    <button onclick="showTab('ration',this)">🧮 Ration</button>
+    <button onclick="showTab('stock',this)">📦 Stock</button>
+    <button onclick="showTab('remind',this)">📲 Cook Reminder</button>
+  </nav>
+
+  <section id="home" class="tab active">
+    <div class="panel">
+      <h2>Mess Settings</h2>
+      <div class="grid">
+        <div class="field"><label>Jawan / servings ki sankhya</label><input id="men" type="number" min="1" value="10"></div>
+        <div class="field"><label>Mess ka naam (optional)</label><input id="messName" placeholder="Jaise Unit Mess"></div>
+      </div>
+      <button onclick="saveSettings()">Settings Save</button>
+      <p class="small">Servings ko har khane ke liye lagne wali recipe ki base quantity se milayein.</p>
+    </div>
+    <div class="panel">
+      <h2>Aaj ka Menu</h2>
+      <div id="todayMenu"></div>
+      <div class="actions"><button class="secondary" onclick="showTab('menu')">Menu Banayein</button><button onclick="showTab('ration')">Ration Dekhein</button></div>
+    </div>
+    <div class="panel">
+      <h2>Software mein kya kar sakte hain?</h2>
+      <p class="small">Recipe ingredients add karein, har recipe ki base servings set karein, hafte ka menu chunein, total ration calculate karein, stock ka hisaab rakhein aur WhatsApp par cook ko message bhejne ke liye draft banayein.</p>
+    </div>
+  </section>
+
+  <section id="recipes" class="tab">
+    <div class="panel">
+      <h2 id="recipeHeading">Nayi Recipe Add Karein</h2>
+      <input type="hidden" id="recipeId">
+      <div class="grid">
+        <div class="field"><label>Recipe / dish ka naam</label><input id="rName" placeholder="Jaise Dal"></div>
+        <div class="field"><label>Category</label><select id="rCategory"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option><option>Other</option></select></div>
+        <div class="field"><label>Recipe ki base servings</label><input id="rBase" type="number" min="1" value="10"></div>
+      </div>
+      <h3>Ingredients</h3>
+      <div class="grid">
+        <div class="field"><label>Ingredient ka naam</label><input id="iName" placeholder="Chawal"></div>
+        <div class="field"><label>Quantity (kg / litre / piece)</label><input id="iQty" type="number" min="0.001" step="any" placeholder="1.5"></div>
+      </div>
+      <div class="field"><label>Unit</label><select id="iUnit"><option>kg</option><option>gram</option><option>litre</option><option>ml</option><option>piece</option><option>packet</option></select></div>
+      <button type="button" class="secondary" onclick="addIngredient()">+ Ingredient Jodein</button>
+      <div id="draftIngredients"></div>
+      <div class="actions"><button onclick="saveRecipe()">Recipe Save Karein</button><button class="secondary" onclick="resetRecipe()">Clear</button></div>
+    </div>
+    <div class="panel"><h2>Saved Recipes</h2><div id="recipeList"></div></div>
+  </section>
+
+  <section id="menu" class="tab">
+    <div class="panel">
+      <h2>Weekly Menu Planner</h2>
+      <div class="field"><label>Din</label><select id="mDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+      <div class="field"><label>Meal</label><select id="mMeal"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></div>
+      <div class="field"><label>Recipe</label><select id="mRecipe"></select></div>
+      <button onclick="addMenu()">Menu mein Jodein</button>
+      <p class="small">Har dish ko uske meal aur din ke saath jodein. Ek hi din mein kai dishes bhi add kar sakte hain.</p>
+    </div>
+    <div class="panel"><h2>Poore Hafte ka Menu</h2><div id="menuList"></div><button class="secondary" onclick="showTab('ration')">Hafte ka Ration Calculate Karein</button></div>
+  </section>
+
+  <section id="ration" class="tab">
+    <div class="panel">
+      <h2>Ration Calculator</h2>
+      <p class="small">Recipe ki ingredient quantity ko base servings se scale karke calculate kiya jayega. Menu mein jitni entries hain, un sab ka ration jodega.</p>
+      <div class="field"><label>Calculation period</label><select id="rPeriod" onchange="renderRation()"><option value="week">Poora hafta</option><option value="day">Ek din</option></select></div>
+      <div class="field" id="dayChoice" style="display:none"><label>Din chunein</label><select id="rDay" onchange="renderRation()"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
+      <button onclick="renderRation()">Calculate Ration</button>
+      <div id="rationResult" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <section id="stock" class="tab">
+    <div class="panel">
+      <h2>Ration Stock</h2>
+      <input type="hidden" id="stockId">
+      <div class="grid">
+        <div class="field"><label>Item</label><input id="stName" placeholder="Chawal"></div>
+        <div class="field"><label>Available quantity</label><input id="stQty" type="number" min="0" step="any" placeholder="20"></div>
+      </div>
+      <div class="field"><label>Unit</label><select id="stUnit"><option>kg</option><option>gram</option><option>litre</option><option>ml</option><option>piece</option><option>packet</option></select></div>
+      <button onclick="saveStock()">Stock Save / Update</button>
+      <div id="stockList" style="margin-top:12px"></div>
+    </div>
+    <div class="panel"><h2>Stock vs Weekly Requirement</h2><div id="stockCheck"></div></div>
+  </section>
+
+  <section id="remind" class="tab">
+    <div class="panel">
+      <h2>Cook Reminder</h2>
+      <p class="small">Yeh message WhatsApp mein kholkar aap khud bhej sakte hain. Is version mein background se automatic WhatsApp sending nahi hoti.</p>
+      <div class="field"><label>Cook ka WhatsApp number (country code ke saath)</label><input id="cookPhone" type="tel" placeholder="Jaise 91XXXXXXXXXX"></div>
+      <div class="field"><label>Reminder message</label><textarea id="reminderText">Namaste Cook ji, kripya aaj ka menu check karein aur khana banane se pehle ration aur taiyari ki jaanch kar lein.</textarea></div>
+      <button onclick="sendReminder()">WhatsApp Kholein</button>
+      <button class="secondary" onclick="makeReminder()">Aaj ke Menu se Message Banayein</button>
+    </div>
+  </section>
+  <footer>Mess Manager Pro • Local demo • Official CRPF system nahi hai</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const MEALS=['Breakfast','Lunch','Dinner','Snack'];
+let data={men:10,messName:'',recipes:[],menu:[],stock:[]};
+let draft=[];
+function load(){
+ try{const d=JSON.parse(localStorage.getItem('messManagerPro')||'null');if(d)data={...data,...d};}catch(e){}
+ $('men').value=data.men;$('messName').value=data.messName||'';
+ renderAll();
+}
+function save(){localStorage.setItem('messManagerPro',JSON.stringify(data));renderStats();}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function num(v){return Math.max(0,Number(v)||0);}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function showTab(id,btn){
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ $(id).classList.add('active');
+ if(btn){document.querySelectorAll('nav button').forEach(x=>x.classList.remove('gold'));btn.classList.add('gold');}
+ renderAll();
+}
+function saveSettings(){data.men=Math.max(1,Math.floor(num($('men').value)||1));data.messName=$('messName').value.trim();$('men').value=data.men;save();alert('Settings save ho gayi.');}
+function addIngredient(){
+ const name=$('iName').value.trim(),qty=Number($('iQty').value),unit=$('iUnit').value;
+ if(!name||!Number.isFinite(qty)||qty<=0){alert('Ingredient aur sahi quantity bharein.');return;}
+ draft.push({name,qty,unit});$('iName').value='';$('iQty').value='';renderDraft();
+}
+function renderDraft(){
+ $('draftIngredients').innerHTML=draft.length?draft.map((x,i)=>`<div class="item row"><span>${esc(x.name)} — ${x.qty} ${esc(x.unit)}</span><button class="danger" onclick="removeDraft(${i})">Hatao</button></div>`).join(''):'<p class="small">Abhi ingredients add nahi hue.</p>';
+}
+function removeDraft(i){draft.splice(i,1);renderDraft();}
+function resetRecipe(){ $('recipeId').value='';$('rName').value='';$('rBase').value=data.men;$('rCategory').value='Lunch';draft=[];$('recipeHeading').textContent='Nayi Recipe Add Karein';renderDraft();}
+function saveRecipe(){
+ const name=$('rName').value.trim(),base=num($('rBase').value),category=$('rCategory').value,id=$('recipeId').value;
+ if(!name||base<1||!draft.length){alert('Recipe ka naam, base servings aur kam se kam ek ingredient zaroor bharein.');return;}
+ const obj={id:id||uid(),name,base,category,ingredients:draft.map(x=>({...x}))};
+ const idx=data.recipes.findIndex(x=>x.id===obj.id);
+ if(idx>=0)data.recipes[idx]=obj;else data.recipes.push(obj);
+ save();resetRecipe();renderAll();alert('Recipe save ho gayi.');
+}
+function editRecipe(id){
+ const r=data.recipes.find(x=>x.id===id);if(!r)return;
+ $('recipeId').value=r.id;$('rName').value=r.name;$('rBase').value=r.base;$('rCategory').value=r.category;
+ draft=r.ingredients.map(x=>({...x}));$('recipeHeading').textContent='Recipe Edit Karein';renderDraft();showTab('recipes');
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function deleteRecipe(id){
+ if(!confirm('Recipe delete karein? Is recipe ke menu entries bhi hat jayengi.'))return;
+ data.recipes=data.recipes.filter(x=>x.id!==id);data.menu=data.menu.filter(x=>x.recipeId!==id);save();renderAll();
+}
+function renderRecipes(){
+ $('recipeList').innerHTML=data.recipes.length?data.recipes.map(r=>`<div class="item"><strong>${esc(r.name)}</strong><div class="small">${esc(r.category)} · Base servings ${r.base}<br>${r.ingredients.map(x=>`${esc(x.name)}: ${x.qty} ${esc(x.unit)}`).join(' • ')}</div><div class="actions"><button class="secondary" onclick="editRecipe('${r.id}')">Edit</button><button class="danger" onclick="deleteRecipe('${r.id}')">Delete</button></div></div>`).join(''):'<div class="empty">Abhi recipe nahi hai. Upar se pehli recipe add karein.</div>';
+ $('mRecipe').innerHTML=data.recipes.length?data.recipes.map(r=>`<option value="${r.id}">${esc(r.name)} (${esc(r.category)})</option>`).join(''):'<option value="">Pehle recipe banayein</option>';
+}
+function addMenu(){
+ const day=$('mDay').value,meal=$('mMeal').value,recipeId=$('mRecipe').value;
+ if(!data.recipes.some(r=>r.id===recipeId)){alert('Pehle recipe add karein.');return;}
+ data.menu.push({id:uid(),day,meal,recipeId});save();renderAll();alert('Menu mein add ho gaya.');
+}
+function removeMenu(id){data.menu=data.menu.filter(x=>x.id!==id);save();renderAll();}
+function recipeFor(id){return data.recipes.find(r=>r.id===id);}
+function renderMenu(){
+ $('menuList').innerHTML=DAYS.map(day=>{
+  const entries=data.menu.filter(m=>m.day===day);
+  return `<div class="item"><strong>${day}</strong>${entries.length?entries.map(m=>`<div class="row" style="margin:8px 0"><span>${esc(m.meal)}: ${esc(recipeFor(m.recipeId)?.name||'Recipe removed')}</span><button class="danger" onclick="removeMenu('${m.id}')">Hatao</button></div>`).join(''):'<div class="small">Menu nahi banaya</div>'}</div>`;
+ }).join('');
+ const today=DAYS[(new Date().getDay()+6)%7],entries=data.menu.filter(m=>m.day===today);
+ $('todayMenu').innerHTML=entries.length?entries.map(m=>`<div class="item"><strong>${esc(m.meal)}</strong>${esc(recipeFor(m.recipeId)?.name||'')}</div>`).join(''):`<div class="empty">${today} ka menu abhi nahi hai.</div>`;
+}
+function convert(q,unit){
+ unit=unit.toLowerCase();
+ if(unit==='gram')return {q:q/1000,unit:'kg'};
+ if(unit==='ml')return {q:q/1000,unit:'litre'};
+ return {q,unit};
+}
+function getRequirement(){
+ const period=$('rPeriod').value,day=$('rDay').value,totals={};
+ data.menu.filter(m=>period==='week'||m.day===day).forEach(m=>{
+  const r=recipeFor(m.recipeId);if(!r)return;
+  r.ingredients.forEach(i=>{
+   const c=convert(num(i.qty)*data.men/Math.max(1,num(r.base)),i.unit);
+   const key=i.name.trim().toLowerCase()+'|'+c.unit;
+   if(!totals[key])totals[key]={name:i.name,unit:c.unit,qty:0};
+   totals[key].qty+=c.q;
+  });
+ });
+ return Object.values(totals).sort((a,b)=>a.name.localeCompare(b.name));
+}
+function renderRation(){
+ const period=$('rPeriod').value;$('dayChoice').style.display=period==='day'?'block':'none';
+ const totals=getRequirement();
+ $('rationResult').innerHTML=totals.length?`<div class="small">Servings per recipe: ${data.men}. ${period==='week'?'Poora hafta':esc($('rDay').value)} ki total estimated requirement.</div><div class="tablewrap"><table><thead><tr><th>Ingredient</th><th>Required</th><th>Unit</th></tr></thead><tbody>${totals.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.qty.toLocaleString('en-IN',{maximumFractionDigits:3})}</td><td>${esc(x.unit)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Ration nikalne ke liye pehle recipes mein ingredients add karein aur weekly menu banayein.</div>';
+ renderStockCheck();
+}
+function saveStock(){
+ const id=$('stockId').value,name=$('stName').value.trim(),qty=Number($('stQty').value),unit=$('stUnit').value;
+ if(!name||!Number.isFinite(qty)||qty<0){alert('Item aur sahi stock quantity bharein.');return;}
+ const obj={id:id||uid(),name,qty,unit},idx=data.stock.findIndex(x=>x.id===obj.id);
+ if(idx>=0)data.stock[idx]=obj;else data.stock.push(obj);
+ $('stockId').value='';$('stName').value='';$('stQty').value='';save();renderAll();
+}
+function editStock(id){const x=data.stock.find(x=>x.id===id);if(!x)return;$('stockId').value=x.id;$('stName').value=x.name;$('stQty').value=x.qty;$('stUnit').value=x.unit;}
+function deleteStock(id){data.stock=data.stock.filter(x=>x.id!==id);save();renderAll();}
+function renderStock(){
+ $('stockList').innerHTML=data.stock.length?data.stock.map(x=>`<div class="item"><strong>${esc(x.name)}</strong><span>${x.qty} ${esc(x.unit)}</span><div class="actions"><button class="secondary" onclick="editStock('${x.id}')">Edit</button><button class="danger" onclick="deleteStock('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">Stock item add nahi hua.</div>';
+ renderStockCheck();
+}
+function renderStockCheck(){
+ if(!$('stockCheck'))return;
+ const req=getRequirement();
+ if(!req.length){$('stockCheck').innerHTML='<div class="empty">Pehle weekly menu aur recipes banayein.</div>';return;}
+ $('stockCheck').innerHTML=req.map(r=>{
+  const s=data.stock.find(x=>x.name.trim().toLowerCase()===r.name.trim().toLowerCase()&&convert(1,x.unit).unit===r.unit);
+  const have=s?convert(s.qty,s.unit).q:0,remaining=have-r.qty;
+  return `<div class="item"><strong>${esc(r.name)}</strong>Requirement: ${r.qty.toFixed(3)} ${esc(r.unit)} · Stock: ${have.toFixed(3)} ${esc(r.unit)}<br><span style="color:${remaining<0?'#b33131':'#176b45'}">${remaining<0?'Kami: '+(-remaining).toFixed(3):'Bachne wala: '+remaining.toFixed(3)} ${esc(r.unit)}</span></div>`;
+ }).join('');
+}
+function makeReminder(){
+ const today=DAYS[(new Date().getDay()+6)%7],entries=data.menu.filter(m=>m.day===today);
+ const list=entries.length?entries.map(m=>m.meal+': '+(recipeFor(m.recipeId)?.name||'')).join('\n'):'Aaj ka menu abhi set nahi hai.';
+ $('reminderText').value=`Namaste Cook ji,\nAaj ka menu (${today}):\n${list}\n\nKripya ingredients aur ration ki taiyari check kar lein. Dhanyavaad.`;
+}
+function sendReminder(){
+ const msg=$('reminderText').value.trim();if(!msg){alert('Message likhein.');return;}
+ let phone=$('cookPhone').value.replace(/[^\d]/g,'');
+ if(phone&&phone.length<8){alert('WhatsApp number country code ke saath check karein.');return;}
+ const url=phone?'https://wa.me/'+phone+'?text='+encodeURIComponent(msg):'https://wa.me/?text='+encodeURIComponent(msg);
+ window.open(url,'_blank');
+}
+function renderStats(){
+ $('sMen').textContent=data.men;$('sRecipes').textContent=data.recipes.length;$('sMenu').textContent=data.menu.length;$('sStock').textContent=data.stock.length;
+}
+function renderAll(){renderStats();renderRecipes();renderMenu();renderDraft();renderStock();renderRation();}
+load();
+</script>
+</body>
+</html>
+
