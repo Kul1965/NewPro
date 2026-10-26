@@ -1,306 +1,320 @@
 
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mess Manager Pro</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CRPF Smart Mess Manager</title>
 <style>
-:root{--green:#176b45;--light:#edf7f0;--gold:#e8b64b;--ink:#203329}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f6f4;color:var(--ink)}
-header{background:linear-gradient(135deg,#104b34,#21845a);color:white;padding:23px 17px}
-header h1{margin:0 0 7px;font-size:25px}
-header p{margin:0;font-size:13px;color:#d9f3e4}
-.wrap{max-width:1050px;margin:auto;padding:14px}
-.notice{background:#fff7df;border:1px solid #efd58b;padding:11px;border-radius:10px;font-size:13px;line-height:1.5;margin-bottom:12px}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
-.stat,.panel{background:white;border-radius:13px;padding:15px;box-shadow:0 2px 8px #163e2710}
-.stat span{font-size:12px;color:#64766b}.stat strong{display:block;font-size:25px;margin-top:7px;color:var(--green)}
-nav{display:flex;gap:7px;overflow-x:auto;padding:3px 0 12px}
-nav button{white-space:nowrap;background:#e1eae4;color:#244b36}
-button{border:0;border-radius:8px;padding:11px 13px;font-weight:700;cursor:pointer;background:var(--green);color:white}
-button.secondary{background:#e6eee8;color:#254c37}
-button.danger{background:#a83333}
-button.gold{background:#f0c45e;color:#382b0b}
-.tab{display:none}.tab.active{display:block}
-.panel{margin-bottom:13px}
-h2{font-size:19px;margin:0 0 14px}
-h3{font-size:16px;margin:14px 0 9px}
-label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}
-input,select,textarea{width:100%;padding:11px;border:1px solid #cbd8cf;border-radius:8px;background:white;font:inherit;color:#203329}
-textarea{min-height:70px}
-.field{margin-bottom:12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.row{display:flex;gap:7px;align-items:center}
-.row>*{flex:1;min-width:0}
-.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.small{font-size:12px;color:#64766b;line-height:1.5}
-.item{padding:12px 0;border-bottom:1px solid #e4ebe5}
-.item:last-child{border-bottom:0}
-.item strong{display:block;margin-bottom:5px}
-table{border-collapse:collapse;width:100%;font-size:13px}
-th,td{text-align:left;padding:10px 7px;border-bottom:1px solid #e3eae4}
-th{background:#edf5ef}
-.tablewrap{overflow-x:auto}
-.empty{padding:16px;background:#f5f8f5;border-radius:8px;color:#64766b;font-size:13px}
-footer{text-align:center;font-size:12px;color:#718077;padding:20px}
-@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}.grid{grid-template-columns:1fr 1fr}.wrap{padding:22px}.stat strong{font-size:29px}}
+:root{--navy:#14243b;--blue:#2458a6;--bg:#f3f6fb;--green:#16845b;--red:#c83e4d;--border:#dfe6ef}
+*{box-sizing:border-box}body{margin:0;font:14px Arial,sans-serif;background:var(--bg);color:#202b3b}
+header{background:var(--navy);color:white;padding:17px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+header h1{font-size:21px;margin:0 0 5px}header small{color:#cbd7e8}
+nav{display:flex;gap:5px;padding:10px;background:white;overflow-x:auto;border-bottom:1px solid var(--border)}
+nav button{white-space:nowrap;background:#edf2fa;color:#263b5b}
+nav button.active{background:var(--blue);color:white}
+main{max-width:1250px;margin:auto;padding:16px}
+.page{display:none}.page.active{display:block}
+h2{font-size:20px;margin:0 0 15px}h3{font-size:16px;margin:0 0 12px}
+.card{background:white;border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:15px;box-shadow:0 2px 8px #13294b08}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:15px}
+.stat{background:white;border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat small{color:#66758a}.stat strong{display:block;font-size:24px;margin-top:8px;color:var(--navy);overflow-wrap:anywhere}
+label{display:block;font-weight:bold;font-size:12px;color:#53627a;margin:9px 0 5px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cdd7e5;border-radius:7px;background:white;font:inherit;color:#1f2937}
+textarea{min-height:70px;resize:vertical}
+button{border:0;border-radius:7px;background:var(--blue);color:white;padding:9px 12px;cursor:pointer;font-weight:600;font-size:12px;margin:2px}
+button:hover{filter:brightness(.94)}button.secondary{background:#e8edf5;color:#26364e}button.green{background:var(--green)}button.red{background:var(--red)}button.dark{background:#36465c}
+.actions{display:flex;gap:3px;flex-wrap:wrap}
+.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #e8edf4;vertical-align:middle}th{font-size:11px;text-transform:uppercase;color:#637189;background:#f8fafd}td{font-size:13px}
+.photo{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#e7edf6;vertical-align:middle}
+.muted{color:#68778b;font-size:12px}.pill{display:inline-block;border-radius:20px;padding:4px 8px;background:#e8f0ff;color:#2458a6;font-size:11px}
+.good{color:var(--green);font-weight:bold}.bad{color:var(--red);font-weight:bold}
+.notice{padding:11px;background:#eef5ff;border-radius:8px;color:#29456d;margin-bottom:12px;font-size:12px;line-height:1.5}
+footer{text-align:center;padding:20px;color:#718096;font-size:11px}
+.inline{display:flex;gap:8px;align-items:end;flex-wrap:wrap}.inline>div{flex:1;min-width:130px}
+.recipe-row{display:grid;grid-template-columns:2fr 1fr auto;gap:7px;align-items:end;margin:8px 0}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f9fc;padding:12px;border-radius:8px}
+@media(max-width:600px){main{padding:10px}header h1{font-size:18px}.card{padding:11px}.recipe-row{grid-template-columns:1fr 1fr}.recipe-row button{grid-column:1/-1}th,td{padding:8px 5px}}
 </style>
 </head>
 <body>
 <header>
-  <h1>🍲 Mess Manager Pro</h1>
-  <p>Mess ka menu, recipe, ration aur stock — ek hi jagah</p>
+ <div><h1>🛡️ CRPF Smart Mess Manager</h1><small>Members • Ration • Recipes • Meals • Accounts</small></div>
+ <div class="actions"><button class="secondary" onclick="exportData()">⬇ Backup</button><button class="secondary" onclick="$('restoreFile').click()">⬆ Restore</button><input hidden id="restoreFile" type="file" accept=".json,application/json" onchange="importData(event)"></div>
 </header>
-<div class="wrap">
-  <div class="notice"><b>Demo / privacy:</b> Data isi browser ke local storage mein save hota hai. App data clear hone ya device badalne par data kho sakta hai. Abhi sensitive jawan details ya official records na daalein. Ration ki matra aapki recipe mein bhari gayi values par nirbhar hai.</div>
-
-  <div class="stats">
-    <div class="stat"><span>Jawan / servings</span><strong id="sMen">10</strong></div>
-    <div class="stat"><span>Recipes</span><strong id="sRecipes">0</strong></div>
-    <div class="stat"><span>Menu entries</span><strong id="sMenu">0</strong></div>
-    <div class="stat"><span>Stock items</span><strong id="sStock">0</strong></div>
+<nav id="nav">
+ <button class="active" data-page="dashboard">Dashboard</button>
+ <button data-page="members">Jawan Records</button>
+ <button data-page="store">Store & Purchase</button>
+ <button data-page="recipes">Recipes</button>
+ <button data-page="meals">Meals & Menu</button>
+ <button data-page="accounts">Jawan Accounts</button>
+ <button data-page="reports">Reports</button>
+</nav>
+<main>
+<section class="page active" id="dashboard">
+ <h2>Mess Dashboard</h2>
+ <div class="stats" id="stats"></div>
+ <div class="grid">
+  <div class="card"><h3>Low Stock Alerts</h3><div id="lowStock"></div></div>
+  <div class="card"><h3>Recent Purchases</h3><div id="recentPurchases"></div></div>
+  <div class="card"><h3>Recent Meals</h3><div id="recentMeals"></div></div>
+  <div class="card"><h3>Quick Actions</h3>
+   <button onclick="go('members')">Manage jawans</button>
+   <button onclick="go('store')">Add purchase</button>
+   <button onclick="go('recipes')">Add recipe</button>
+   <button onclick="go('meals')">Record meal</button>
   </div>
+ </div>
+</section>
 
-  <nav>
-    <button onclick="showTab('home',this)">🏠 Dashboard</button>
-    <button onclick="showTab('recipes',this)">🍛 Recipes</button>
-    <button onclick="showTab('menu',this)">📅 Weekly Menu</button>
-    <button onclick="showTab('ration',this)">🧮 Ration</button>
-    <button onclick="showTab('stock',this)">📦 Stock</button>
-    <button onclick="showTab('remind',this)">📲 Cook Reminder</button>
-  </nav>
+<section class="page" id="members">
+ <h2>Jawan Records</h2>
+ <div class="card">
+  <h3 id="memberTitle">Add Jawan</h3>
+  <form id="memberForm">
+   <input type="hidden" id="mid">
+   <div class="grid">
+    <div><label>Jawan ID / Service No. *</label><input id="mno" required></div>
+    <div><label>Full Name *</label><input id="mname" required></div>
+    <div><label>Rank</label><input id="mrank" placeholder="e.g. Constable"></div>
+    <div><label>Duty / Platoon</label><input id="mduty"></div>
+    <div><label>Mobile with country code</label><input id="mphone" placeholder="e.g. 97798XXXXXXXX"></div>
+    <div><label>Monthly mess limit (Rs)</label><input id="mlimit" type="number" min="0" value="4000"></div>
+    <div><label>Status</label><select id="mstatus"><option>Active</option><option>On Leave</option><option>Transferred</option></select></div>
+    <div><label>Date joined</label><input id="mjoined" type="date"></div>
+    <div><label>Jawan Photo</label><input id="mphoto" type="file" accept="image/*"><small class="muted">Photo is saved in this browser. Use a small image.</small></div>
+   </div>
+   <label>Notes</label><textarea id="mnotes"></textarea>
+   <div class="actions"><button type="submit" class="green">Save Jawan</button><button type="button" class="secondary" onclick="clearMember()">Clear Form</button></div>
+  </form>
+ </div>
+ <div class="card"><div class="inline"><div><label>Search jawans</label><input id="memberSearch" placeholder="Name, ID, rank, phone..." oninput="renderMembers()"></div></div><div class="tablewrap"><table><thead><tr><th>Photo</th><th>ID / Name</th><th>Rank / Duty</th><th>Phone</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead><tbody id="memberRows"></tbody></table></div></div>
+</section>
 
-  <section id="home" class="tab active">
-    <div class="panel">
-      <h2>Mess Settings</h2>
-      <div class="grid">
-        <div class="field"><label>Jawan / servings ki sankhya</label><input id="men" type="number" min="1" value="10"></div>
-        <div class="field"><label>Mess ka naam (optional)</label><input id="messName" placeholder="Jaise Unit Mess"></div>
-      </div>
-      <button onclick="saveSettings()">Settings Save</button>
-      <p class="small">Servings ko har khane ke liye lagne wali recipe ki base quantity se milayein.</p>
-    </div>
-    <div class="panel">
-      <h2>Aaj ka Menu</h2>
-      <div id="todayMenu"></div>
-      <div class="actions"><button class="secondary" onclick="showTab('menu')">Menu Banayein</button><button onclick="showTab('ration')">Ration Dekhein</button></div>
-    </div>
-    <div class="panel">
-      <h2>Software mein kya kar sakte hain?</h2>
-      <p class="small">Recipe ingredients add karein, har recipe ki base servings set karein, hafte ka menu chunein, total ration calculate karein, stock ka hisaab rakhein aur WhatsApp par cook ko message bhejne ke liye draft banayein.</p>
-    </div>
-  </section>
+<section class="page" id="store">
+ <h2>Store & Purchase Management</h2>
+ <div class="notice">Stock is stored internally in grams, millilitres or pieces. You can purchase in kg, grams, litres, millilitres or pieces. Edit a purchase to update the original entry instead of deleting and re-entering it.</div>
+ <div class="card"><h3 id="itemTitle">Add Store Item</h3>
+  <form id="itemForm"><input type="hidden" id="iid">
+   <div class="grid">
+    <div><label>Item name *</label><input id="iname" required placeholder="Rice, dal, oil..."></div>
+    <div><label>Item type / base unit *</label><select id="itype"><option value="weight">Weight (kg / g)</option><option value="volume">Volume (litre / ml)</option><option value="count">Count (pieces)</option></select></div>
+    <div><label>Opening stock</label><input id="iqty" type="number" min="0" step=".001" value="0"></div>
+    <div><label>Opening stock value (Rs)</label><input id="ivalue" type="number" min="0" step=".01" value="0"></div>
+    <div><label>Low-stock alert level</label><input id="imin" type="number" min="0" step=".001" value="0"></div>
+   </div>
+   <div class="actions"><button class="green">Save Item</button><button type="button" class="secondary" onclick="clearItem()">Clear</button></div>
+  </form>
+ </div>
+ <div class="card"><h3 id="purchaseTitle">Add Purchase</h3>
+  <form id="purchaseForm"><input type="hidden" id="pid">
+   <div class="grid">
+    <div><label>Date *</label><input type="date" id="pdate" required></div>
+    <div><label>Store item *</label><select id="pitem" required></select></div>
+    <div><label>Purchase quantity *</label><input id="pqty" type="number" min=".001" step=".001" required></div>
+    <div><label>Purchase unit *</label><select id="punit"><option value="kg">kg</option><option value="g">gram</option><option value="litre">litre</option><option value="ml">ml</option><option value="pcs">pieces</option></select></div>
+    <div><label>Total cost (Rs) *</label><input id="pcost" type="number" min="0" step=".01" required></div>
+    <div><label>Supplier</label><input id="pvendor"></div>
+    <div><label>Bill / Invoice No.</label><input id="pbill"></div>
+   </div>
+   <div class="actions"><button class="green">Save Purchase</button><button type="button" class="secondary" onclick="clearPurchase()">Clear</button></div>
+  </form>
+ </div>
+ <div class="card"><h3>Store Stock</h3><input id="itemSearch" placeholder="Search store items..." oninput="renderStore()" style="margin-bottom:10px"><div class="tablewrap"><table><thead><tr><th>Item</th><th>Available stock</th><th>Average rate</th><th>Stock value</th><th>Low-stock level</th><th>Actions</th></tr></thead><tbody id="itemRows"></tbody></table></div></div>
+ <div class="card"><h3>Purchase Register</h3><div class="inline"><div><label>Search purchases</label><input id="purchaseSearch" oninput="renderPurchases()" placeholder="Item, supplier, bill..."></div><div><label>From date</label><input type="date" id="purchaseFrom" onchange="renderPurchases()"></div><div><label>To date</label><input type="date" id="purchaseTo" onchange="renderPurchases()"></div></div><div class="tablewrap"><table><thead><tr><th>Date</th><th>Item</th><th>Quantity</th><th>Cost</th><th>Supplier / Bill</th><th>Actions</th></tr></thead><tbody id="purchaseRows"></tbody></table></div></div>
+</section>
 
-  <section id="recipes" class="tab">
-    <div class="panel">
-      <h2 id="recipeHeading">Nayi Recipe Add Karein</h2>
-      <input type="hidden" id="recipeId">
-      <div class="grid">
-        <div class="field"><label>Recipe / dish ka naam</label><input id="rName" placeholder="Jaise Dal"></div>
-        <div class="field"><label>Category</label><select id="rCategory"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option><option>Other</option></select></div>
-        <div class="field"><label>Recipe ki base servings</label><input id="rBase" type="number" min="1" value="10"></div>
-      </div>
-      <h3>Ingredients</h3>
-      <div class="grid">
-        <div class="field"><label>Ingredient ka naam</label><input id="iName" placeholder="Chawal"></div>
-        <div class="field"><label>Quantity (kg / litre / piece)</label><input id="iQty" type="number" min="0.001" step="any" placeholder="1.5"></div>
-      </div>
-      <div class="field"><label>Unit</label><select id="iUnit"><option>kg</option><option>gram</option><option>litre</option><option>ml</option><option>piece</option><option>packet</option></select></div>
-      <button type="button" class="secondary" onclick="addIngredient()">+ Ingredient Jodein</button>
-      <div id="draftIngredients"></div>
-      <div class="actions"><button onclick="saveRecipe()">Recipe Save Karein</button><button class="secondary" onclick="resetRecipe()">Clear</button></div>
-    </div>
-    <div class="panel"><h2>Saved Recipes</h2><div id="recipeList"></div></div>
-  </section>
+<section class="page" id="recipes">
+ <h2>Recipe Management</h2>
+ <div class="card"><h3 id="recipeTitle">Create Recipe</h3>
+  <form id="recipeForm"><input type="hidden" id="rid">
+   <div class="grid"><div><label>Recipe name *</label><input id="rname" required placeholder="Dal, rice, tarkari..."></div><div><label>Category</label><select id="rcat"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option><option>Other</option></select></div><div><label>Serving description</label><input id="rserving" value="1 jawan serving" required></div></div>
+   <h3 style="margin-top:15px">Ingredients per serving</h3><div id="ingredientRows"></div>
+   <button type="button" class="secondary" onclick="addIngredient()">+ Add Ingredient</button>
+   <div class="notice" style="margin-top:12px">Enter ingredients in grams, ml or pieces, matching the store item's type. Example: rice 100 g per serving.</div>
+   <p><b>Estimated cost per serving: <span id="rcost">Rs 0.00</span></b></p><div id="rbreakdown" class="muted"></div>
+   <div class="actions" style="margin-top:12px"><button class="green">Save Recipe</button><button type="button" class="secondary" onclick="clearRecipe()">Clear</button></div>
+  </form>
+ </div>
+ <div class="card"><h3>Saved Recipes</h3><input id="recipeSearch" oninput="renderRecipes()" placeholder="Search recipe..." style="margin-bottom:10px"><div class="tablewrap"><table><thead><tr><th>Recipe</th><th>Category</th><th>Ingredients</th><th>Cost / serving</th><th>Actions</th></tr></thead><tbody id="recipeRows"></tbody></table></div></div>
+</section>
 
-  <section id="menu" class="tab">
-    <div class="panel">
-      <h2>Weekly Menu Planner</h2>
-      <div class="field"><label>Din</label><select id="mDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
-      <div class="field"><label>Meal</label><select id="mMeal"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></div>
-      <div class="field"><label>Recipe</label><select id="mRecipe"></select></div>
-      <button onclick="addMenu()">Menu mein Jodein</button>
-      <p class="small">Har dish ko uske meal aur din ke saath jodein. Ek hi din mein kai dishes bhi add kar sakte hain.</p>
-    </div>
-    <div class="panel"><h2>Poore Hafte ka Menu</h2><div id="menuList"></div><button class="secondary" onclick="showTab('ration')">Hafte ka Ration Calculate Karein</button></div>
-  </section>
+<section class="page" id="meals">
+ <h2>Meals, Weekly Menu & Cook WhatsApp</h2>
+ <div class="card"><h3>Weekly Menu Planner</h3><div class="grid"><div><label>Week starting</label><input type="date" id="weekStart"></div><div><label>Menu type</label><select id="menuType"><option value="all">All meal times</option><option>Breakfast</option><option>Lunch</option><option>Dinner</option></select></div></div><div class="actions" style="margin-top:10px"><button onclick="generateMenu()">Generate 7-day menu</button><button class="secondary" onclick="whatsappMenu()">WhatsApp Menu</button></div><div id="weeklyMenu"></div></div>
+ <div class="card"><h3>Record Meal / Consume Ration</h3><form id="mealForm"><input type="hidden" id="mealid">
+  <div class="grid"><div><label>Date *</label><input type="date" id="mealDate" required></div><div><label>Meal time *</label><select id="mealTime"><option>Breakfast</option><option>Lunch</option><option>Dinner</option><option>Snack</option></select></div><div><label>Recipe *</label><select id="mealRecipe" required></select></div><div><label>Number of servings / jawans *</label><input type="number" id="mealServings" min="1" value="10" required></div><div><label>Cost per serving (Rs)</label><input type="number" id="mealCost" min="0" step=".01" placeholder="Auto from recipe"></div></div>
+  <label>Notes</label><input id="mealNotes" placeholder="Platoon, special meal, etc.">
+  <div id="mealEstimate" class="notice">Select a recipe to see the ration required.</div>
+  <div class="actions"><button class="green">Save Meal & Deduct Stock</button><button type="button" class="secondary" onclick="clearMeal()">Clear</button></div>
+ </form></div>
+ <div class="card"><h3>Cook Ration List / WhatsApp</h3><p class="muted">Select a date and calculate the total ingredients from saved recipes for the required number of servings.</p><div class="grid"><div><label>Meal date</label><input type="date" id="cookDate"></div><div><label>Servings / jawans</label><input type="number" min="1" id="cookServings" value="10"></div><div><label>Recipe</label><select id="cookRecipe"></select></div></div><div class="actions"><button onclick="makeRationList()">Calculate Ration</button><button class="green" onclick="whatsappRation()">WhatsApp Cook</button></div><pre id="rationOutput">Select a recipe and calculate the ration list.</pre></div>
+ <div class="card"><h3>Meal Register</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Meal</th><th>Recipe</th><th>Servings</th><th>Total cost</th><th>Actions</th></tr></thead><tbody id="mealRows"></tbody></table></div></div>
+</section>
 
-  <section id="ration" class="tab">
-    <div class="panel">
-      <h2>Ration Calculator</h2>
-      <p class="small">Recipe ki ingredient quantity ko base servings se scale karke calculate kiya jayega. Menu mein jitni entries hain, un sab ka ration jodega.</p>
-      <div class="field"><label>Calculation period</label><select id="rPeriod" onchange="renderRation()"><option value="week">Poora hafta</option><option value="day">Ek din</option></select></div>
-      <div class="field" id="dayChoice" style="display:none"><label>Din chunein</label><select id="rDay" onchange="renderRation()"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select></div>
-      <button onclick="renderRation()">Calculate Ration</button>
-      <div id="rationResult" style="margin-top:14px"></div>
-    </div>
-  </section>
+<section class="page" id="accounts">
+ <h2>Jawan Accounts</h2>
+ <div class="card"><h3>Deposit / Adjustment</h3><form id="ledgerForm"><div class="grid"><div><label>Jawan *</label><select id="lmember" required></select></div><div><label>Transaction type</label><select id="ltype"><option value="deposit">Deposit / Credit</option><option value="charge">Charge / Debit</option></select></div><div><label>Amount (Rs) *</label><input type="number" id="lamount" min=".01" step=".01" required></div><div><label>Date</label><input type="date" id="ldate" required></div><div><label>Reference / Description</label><input id="lref" placeholder="Cash deposit, adjustment..."></div></div><div class="actions"><button class="green">Post Transaction</button></div></form></div>
+ <div class="card"><h3>Account Summary</h3><div class="tablewrap"><table><thead><tr><th>Jawan</th><th>Deposits</th><th>Meal Charges</th><th>Other Charges</th><th>Balance</th><th>Actions</th></tr></thead><tbody id="accountRows"></tbody></table></div></div>
+ <div class="card"><h3>Transaction Register</h3><div class="tablewrap"><table><thead><tr><th>Date</th><th>Jawan</th><th>Type</th><th>Amount</th><th>Description</th><th>Action</th></tr></thead><tbody id="ledgerRows"></tbody></table></div></div>
+</section>
 
-  <section id="stock" class="tab">
-    <div class="panel">
-      <h2>Ration Stock</h2>
-      <input type="hidden" id="stockId">
-      <div class="grid">
-        <div class="field"><label>Item</label><input id="stName" placeholder="Chawal"></div>
-        <div class="field"><label>Available quantity</label><input id="stQty" type="number" min="0" step="any" placeholder="20"></div>
-      </div>
-      <div class="field"><label>Unit</label><select id="stUnit"><option>kg</option><option>gram</option><option>litre</option><option>ml</option><option>piece</option><option>packet</option></select></div>
-      <button onclick="saveStock()">Stock Save / Update</button>
-      <div id="stockList" style="margin-top:12px"></div>
-    </div>
-    <div class="panel"><h2>Stock vs Weekly Requirement</h2><div id="stockCheck"></div></div>
-  </section>
-
-  <section id="remind" class="tab">
-    <div class="panel">
-      <h2>Cook Reminder</h2>
-      <p class="small">Yeh message WhatsApp mein kholkar aap khud bhej sakte hain. Is version mein background se automatic WhatsApp sending nahi hoti.</p>
-      <div class="field"><label>Cook ka WhatsApp number (country code ke saath)</label><input id="cookPhone" type="tel" placeholder="Jaise 91XXXXXXXXXX"></div>
-      <div class="field"><label>Reminder message</label><textarea id="reminderText">Namaste Cook ji, kripya aaj ka menu check karein aur khana banane se pehle ration aur taiyari ki jaanch kar lein.</textarea></div>
-      <button onclick="sendReminder()">WhatsApp Kholein</button>
-      <button class="secondary" onclick="makeReminder()">Aaj ke Menu se Message Banayein</button>
-    </div>
-  </section>
-  <footer>Mess Manager Pro • Local demo • Official CRPF system nahi hai</footer>
-</div>
+<section class="page" id="reports">
+ <h2>Reports & Backup</h2>
+ <div class="card"><h3>Report Filters</h3><div class="grid"><div><label>From date</label><input type="date" id="reportFrom"></div><div><label>To date</label><input type="date" id="reportTo"></div></div><div class="actions" style="margin-top:10px"><button onclick="renderReports()">Generate Report</button><button class="green" onclick="downloadCSV()">Export CSV</button><button class="secondary" onclick="window.print()">Print Report</button></div></div>
+ <div id="reportOutput"></div>
+ <div class="card"><h3>Data Backup & Restore</h3><p>Backup saves all members, photos, store stock, purchases, recipes, meals and accounts to a JSON file. Keep a copy somewhere safe.</p><div class="actions"><button onclick="exportData()">Download Full Backup</button><button class="secondary" onclick="$('restoreFile').click()">Restore from JSON</button><button class="red" onclick="resetAll()">Reset All Data</button></div><p class="muted">Reset permanently deletes the data saved in this browser. Export a backup first.</p></div>
+</section>
+</main>
+<footer>CRPF Smart Mess Manager • Local browser storage • Keep regular backups</footer>
 
 <script>
+const KEY='crpfSmartMessCompleteV1';
 const $=id=>document.getElementById(id);
-const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-const MEALS=['Breakfast','Lunch','Dinner','Snack'];
-let data={men:10,messName:'',recipes:[],menu:[],stock:[]};
-let draft=[];
-function load(){
- try{const d=JSON.parse(localStorage.getItem('messManagerPro')||'null');if(d)data={...data,...d};}catch(e){}
- $('men').value=data.men;$('messName').value=data.messName||'';
- renderAll();
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const today=()=>new Date().toISOString().slice(0,10);
+const money=n=>'Rs '+Number(n||0).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const blank=()=>({version:1,members:[],items:[],purchases:[],recipes:[],meals:[],ledger:[]});
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){db=blank()}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){alert('Could not save data. Photo may be too large. Use a smaller photo and try again.');return}renderAll()}
+function byId(type,id){return (db[type]||[]).find(x=>x.id===id)}
+function save(type,obj){let i=db[type].findIndex(x=>x.id===obj.id);if(i<0)db[type].push(obj);else db[type][i]=obj;persist()}
+function remove(type,id){db[type]=db[type].filter(x=>x.id!==id);persist()}
+function go(page){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===page));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===page));renderAll();window.scrollTo(0,0)}
+$('nav').addEventListener('click',e=>{let b=e.target.closest('[data-page]');if(b)go(b.dataset.page)});
+function fmtQty(q,type){q=Number(q||0);if(type==='weight')return (q/1000).toLocaleString('en-IN',{maximumFractionDigits:3})+' kg';if(type==='volume')return (q/1000).toLocaleString('en-IN',{maximumFractionDigits:3})+' litre';return q.toLocaleString('en-IN',{maximumFractionDigits:3})+' pcs'}
+function baseUnit(type){return type==='weight'?'g':type==='volume'?'ml':'pcs'}
+function rate(x){return x&&x.qty>0?x.value/x.qty:0}
+function rateLabel(x){if(!x)return '-';return money(rate(x)*1000)+' / '+(x.type==='weight'?'kg':x.type==='volume'?'litre':'1000 pcs')}
+function item(id){return byId('items',id)}
+function member(id){return byId('members',id)}
+function recipe(id){return byId('recipes',id)}
+function options(arr,selected){return arr.map(x=>`<option value="${esc(x.id)}" ${x.id===selected?'selected':''}>${esc(x.name||x.no||'')}</option>`).join('')}
+function balance(id){return db.ledger.filter(x=>x.memberId===id).reduce((s,x)=>s+(x.type==='deposit'?x.amount:-x.amount),0)}
+function ledgerTotals(id){let a=db.ledger.filter(x=>x.memberId===id);return{deposits:a.filter(x=>x.type==='deposit').reduce((s,x)=>s+x.amount,0),meal:a.filter(x=>x.type==='charge'&&x.source==='meal').reduce((s,x)=>s+x.amount,0),other:a.filter(x=>x.type==='charge'&&x.source!=='meal').reduce((s,x)=>s+x.amount,0)}}
+function recipeCost(r){return (r?.ingredients||[]).reduce((s,i)=>s+(item(i.itemId)?i.qty*rate(item(i.itemId)):0),0)}
+function needs(r,n){let out={};(r?.ingredients||[]).forEach(i=>out[i.itemId]=(out[i.itemId]||0)+i.qty*n);return out}
+function alertDelete(label,fn){if(confirm('Delete '+label+'? This action cannot be undone.'))fn()}
+function renderAll(){renderDashboard();renderMembers();renderStore();renderPurchases();renderRecipes();renderMealSelects();renderMeals();renderAccounts();if($('reportOutput'))renderReports();calcRecipe();calcMealEstimate()}
+function renderDashboard(){
+ $('stats').innerHTML=[
+ ['Active jawans',db.members.filter(m=>m.status==='Active').length],
+ ['Store items',db.items.length],
+ ['Saved recipes',db.recipes.length],
+ ['Purchases total',money(db.purchases.reduce((s,p)=>s+p.cost,0))],
+ ['Meals recorded',db.meals.length],
+ ['Account balances',money(db.members.reduce((s,m)=>s+balance(m.id),0))]
+ ].map(a=>`<div class="stat"><small>${a[0]}</small><strong>${a[1]}</strong></div>`).join('');
+ let low=db.items.filter(x=>x.min>0&&x.qty<=x.min);
+ $('lowStock').innerHTML=low.length?low.map(x=>`<p><b>${esc(x.name)}</b><br><span class="bad">${fmtQty(x.qty,x.type)} left</span> <small>(alert ${fmtQty(x.min,x.type)})</small></p>`).join(''):'<p class="good">No low-stock alerts.</p>';
+ $('recentPurchases').innerHTML=db.purchases.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(p=>`<p>${esc(p.date)} · ${esc(p.itemName)}<br><b>${money(p.cost)}</b></p>`).join('')||'<p class="muted">No purchases yet.</p>';
+ $('recentMeals').innerHTML=db.meals.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(m=>`<p>${esc(m.date)} · ${esc(m.time)}<br>${esc(m.recipeName)} · ${m.servings} servings</p>`).join('')||'<p class="muted">No meals recorded yet.</p>';
 }
-function save(){localStorage.setItem('messManagerPro',JSON.stringify(data));renderStats();}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-function num(v){return Math.max(0,Number(v)||0);}
-function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
-function showTab(id,btn){
- document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
- $(id).classList.add('active');
- if(btn){document.querySelectorAll('nav button').forEach(x=>x.classList.remove('gold'));btn.classList.add('gold');}
- renderAll();
+function clearMember(){$('memberForm').reset();$('mid').value='';$('mphoto').value='';$('mlimit').value=4000;$('memberTitle').textContent='Add Jawan'}
+$('memberForm').addEventListener('submit',async e=>{
+ e.preventDefault();let id=$('mid').value||uid(),no=$('mno').value.trim();
+ if(db.members.some(m=>m.no.toLowerCase()===no.toLowerCase()&&m.id!==id)){alert('This Jawan ID already exists.');return}
+ let old=member(id),photo=old?.photo||'';
+ let file=$('mphoto').files[0];
+ if(file){if(file.size>1200000){alert('Photo is too large. Please choose a photo under 1.2 MB.');return}photo=await fileToDataURL(file)}
+ save('members',{id,no,name:$('mname').value.trim(),rank:$('mrank').value.trim(),duty:$('mduty').value.trim(),phone:$('mphone').value.trim(),limit:+$('mlimit').value,status:$('mstatus').value,joined:$('mjoined').value,notes:$('mnotes').value.trim(),photo,created:old?.created||today()});
+ clearMember();go('members')
+});
+function fileToDataURL(file){return new Promise((resolve,reject)=>{let r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+function editMember(id){let m=member(id);if(!m)return;go('members');$('mid').value=id;['no','name','rank','duty','phone','limit','status','joined','notes'].forEach(k=>{let el=$('m'+k);if(el)el.value=m[k]??''});$('memberTitle').textContent='Edit Jawan'}
+function viewMember(id){let m=member(id),t=ledgerTotals(id);alert(`JAWAN DETAILS\n\nID: ${m.no}\nName: ${m.name}\nRank: ${m.rank||'-'}\nDuty: ${m.duty||'-'}\nPhone: ${m.phone||'-'}\nStatus: ${m.status}\nJoined: ${m.joined||'-'}\nMonthly limit: ${money(m.limit)}\nDeposits: ${money(t.deposits)}\nMeal charges: ${money(t.meal)}\nOther charges: ${money(t.other)}\nBalance: ${money(balance(id))}\nNotes: ${m.notes||'-'}`)}
+function waMember(id){let m=member(id),p=(m.phone||'').replace(/\D/g,'');if(!p){alert('Add the mobile number with country code first.');return}window.open('https://wa.me/'+p+'?text='+encodeURIComponent('Namaste '+m.name+', mess ko taraf bata sandesh.'),'_blank')}
+function renderMembers(){let q=($('memberSearch')?.value||'').toLowerCase();let a=db.members.filter(m=>[m.no,m.name,m.rank,m.duty,m.phone].join(' ').toLowerCase().includes(q));$('memberRows').innerHTML=a.map(m=>`<tr><td>${m.photo?`<img class="photo" src="${m.photo}" alt="Photo">`:'<span class="photo" style="display:inline-flex;align-items:center;justify-content:center">👤</span>'}</td><td><b>${esc(m.no)}</b><br>${esc(m.name)}</td><td>${esc(m.rank||'-')}<br><small>${esc(m.duty||'-')}</small></td><td>${esc(m.phone||'-')}</td><td>${money(balance(m.id))}</td><td><span class="pill">${esc(m.status)}</span></td><td><div class="actions"><button onclick="viewMember('${m.id}')">View</button><button class="secondary" onclick="editMember('${m.id}')">Edit</button><button class="green" onclick="waMember('${m.id}')">WhatsApp</button><button class="red" onclick="deleteMember('${m.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="7">No jawans found.</td></tr>'}
+function deleteMember(id){if(db.ledger.some(x=>x.memberId===id)){alert('This jawan has account transactions. Keep the record for audit; change status instead.');return}alertDelete('jawan',()=>remove('members',id))}
+function clearItem(){$('itemForm').reset();$('iid').value='';$('iqty').value=0;$('ivalue').value=0;$('imin').value=0;$('itemTitle').textContent='Add Store Item'}
+$('itemForm').addEventListener('submit',e=>{
+ e.preventDefault();let id=$('iid').value||uid(),name=$('iname').value.trim(),type=$('itype').value,old=item(id);
+ if(db.items.some(x=>x.name.toLowerCase()===name.toLowerCase()&&x.id!==id)){alert('This item already exists.');return}
+ if(old&&old.type!==type){alert('Item type cannot be changed after creation.');return}
+ let qty=old?old.qty:+$('iqty').value,value=old?old.value:+$('ivalue').value;
+ if(!old){qty*=1000;if(qty>0)db.ledger; }
+ save('items',{id,name,type,qty,value,min:+$('imin').value*1000});
+ clearItem()
+});
+function editItem(id){let x=item(id);if(!x)return;go('store');$('iid').value=id;$('iname').value=x.name;$('itype').value=x.type;$('iqty').value=x.qty/1000;$('ivalue').value=x.value;$('imin').value=x.min/1000;$('itemTitle').textContent='Edit Store Item'}
+function viewItem(id){let x=item(id);alert(`${x.name}\nAvailable stock: ${fmtQty(x.qty,x.type)}\nAverage rate: ${money(rate(x))} per ${baseUnit(x.type)}\nEquivalent rate: ${rateLabel(x)}\nStock value: ${money(x.value)}\nLow-stock alert: ${fmtQty(x.min,x.type)}`)}
+function renderStore(){
+ let q=($('itemSearch')?.value||'').toLowerCase();
+ $('itemRows').innerHTML=db.items.filter(x=>x.name.toLowerCase().includes(q)).map(x=>`<tr><td><b>${esc(x.name)}</b><br><small>${x.type==='weight'?'Weight':x.type==='volume'?'Volume':'Count'}</small></td><td class="${x.min>0&&x.qty<=x.min?'bad':''}">${fmtQty(x.qty,x.type)}</td><td>${rateLabel(x)}</td><td>${money(x.value)}</td><td>${fmtQty(x.min,x.type)}</td><td><div class="actions"><button onclick="viewItem('${x.id}')">View</button><button class="secondary" onclick="editItem('${x.id}')">Edit</button><button class="red" onclick="deleteItem('${x.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="6">No store items found.</td></tr>';
+ $('pitem').innerHTML='<option value="">Choose item</option>'+options(db.items,$('pitem').value);
+ syncPurchaseUnits()
 }
-function saveSettings(){data.men=Math.max(1,Math.floor(num($('men').value)||1));data.messName=$('messName').value.trim();$('men').value=data.men;save();alert('Settings save ho gayi.');}
-function addIngredient(){
- const name=$('iName').value.trim(),qty=Number($('iQty').value),unit=$('iUnit').value;
- if(!name||!Number.isFinite(qty)||qty<=0){alert('Ingredient aur sahi quantity bharein.');return;}
- draft.push({name,qty,unit});$('iName').value='';$('iQty').value='';renderDraft();
+function deleteItem(id){if(db.recipes.some(r=>r.ingredients.some(i=>i.itemId===id))){alert('This item is used in a recipe. Edit those recipes first.');return}if(db.purchases.some(p=>p.itemId===id)){alert('This item has purchase history. Keep it for audit.');return}alertDelete('store item',()=>remove('items',id))}
+function syncPurchaseUnits(){let x=item($('pitem').value),u=$('punit').value;if(!x)return;let allowed=x.type==='weight'?['kg','g']:x.type==='volume'?['litre','ml']:['pcs'];$('punit').innerHTML=allowed.map(v=>`<option value="${v}" ${v===u?'selected':''}>${v}</option>`).join('')}
+$('pitem').addEventListener('change',syncPurchaseUnits);
+function clearPurchase(){$('purchaseForm').reset();$('pid').value='';$('pdate').value=today();$('purchaseTitle').textContent='Add Purchase';syncPurchaseUnits()}
+function unitFactor(u){return {kg:1000,g:1,litre:1000,ml:1,pcs:1}[u]||1}
+$('purchaseForm').addEventListener('submit',e=>{
+ e.preventDefault();let id=$('pid').value||uid(),x=item($('pitem').value);if(!x){alert('Add a store item first.');return}
+ let unit=$('punit').value;
+ if((x.type==='weight'&&!['kg','g'].includes(unit))||(x.type==='volume'&&!['litre','ml'].includes(unit))||(x.type==='count'&&unit!=='pcs')){alert('Purchase unit does not match item type.');return}
+ let qty=+$('pqty').value*unitFactor(unit),cost=+$('pcost').value,old=db.purchases.find(p=>p.id===id);
+ if(old){let oldItem=item(old.itemId);if(oldItem){oldItem.qty+=qty-old.qty;oldItem.value+=cost-old.cost;if(oldItem.qty<0){alert('Updated purchase would make stock negative. Check current stock.');oldItem.qty-=qty-old.qty;oldItem.value-=cost-old.cost;return}oldItem.value=Math.max(0,oldItem.value)}}
+ else{x.qty+=qty;x.value+=cost}
+ let p={id,date:$('pdate').value,itemId:x.id,itemName:x.name,qty,unit:x.type==='weight'?'g':x.type==='volume'?'ml':'pcs',enteredQty:+$('pqty').value,enteredUnit:unit,cost,vendor:$('pvendor').value.trim(),bill:$('pbill').value.trim()};
+ if(old){let i=db.purchases.findIndex(p=>p.id===id);db.purchases[i]=p}else db.purchases.push(p);
+ persist();clearPurchase()
+});
+function editPurchase(id){let p=db.purchases.find(p=>p.id===id);if(!p)return;go('store');$('pid').value=id;$('pdate').value=p.date;$('pitem').value=p.itemId;syncPurchaseUnits();$('pqty').value=p.enteredQty;$('punit').value=p.enteredUnit;$('pcost').value=p.cost;$('pvendor').value=p.vendor||'';$('pbill').value=p.bill||'';$('purchaseTitle').textContent='Edit / Update Purchase'}
+function viewPurchase(id){let p=db.purchases.find(p=>p.id===id);alert(`PURCHASE DETAILS\nDate: ${p.date}\nItem: ${p.itemName}\nQuantity: ${p.enteredQty} ${p.enteredUnit}\nCost: ${money(p.cost)}\nSupplier: ${p.vendor||'-'}\nBill: ${p.bill||'-'}`)}
+function deletePurchase(id){let p=db.purchases.find(p=>p.id===id);if(!p)return;let x=item(p.itemId);if(x&&x.qty<p.qty){alert('Cannot delete: some of this stock may already have been consumed. Use a correction transaction in a production system.');return}alertDelete('purchase',()=>{if(x){x.qty-=p.qty;x.value=Math.max(0,x.value-p.cost)}db.purchases=db.purchases.filter(a=>a.id!==id);persist()})}
+function renderPurchases(){let q=($('purchaseSearch')?.value||'').toLowerCase(),from=$('purchaseFrom')?.value||'',to=$('purchaseTo')?.value||'';let a=db.purchases.filter(p=>[p.itemName,p.vendor,p.bill].join(' ').toLowerCase().includes(q)&&(!from||p.date>=from)&&(!to||p.date<=to)).slice().sort((a,b)=>b.date.localeCompare(a.date));$('purchaseRows').innerHTML=a.map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(p.itemName)}</td><td>${p.enteredQty} ${esc(p.enteredUnit)}</td><td>${money(p.cost)}</td><td>${esc(p.vendor||'-')}<br><small>${esc(p.bill||'')}</small></td><td><div class="actions"><button onclick="viewPurchase('${p.id}')">View</button><button class="secondary" onclick="editPurchase('${p.id}')">Edit</button><button class="red" onclick="deletePurchase('${p.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="6">No purchases found.</td></tr>'}
+function addIngredient(itemId='',qty=''){let d=document.createElement('div');d.className='recipe-row';d.innerHTML=`<div><label>Ingredient</label><select class="ingItem" required><option value="">Choose store item</option>${options(db.items,itemId)}</select></div><div><label>Quantity per serving</label><input class="ingQty" type="number" min=".001" step=".001" value="${esc(qty)}" required></div><button type="button" class="red" onclick="this.parentElement.remove();calcRecipe()">Remove</button>`;d.querySelector('.ingItem').addEventListener('change',calcRecipe);d.querySelector('.ingQty').addEventListener('input',calcRecipe);$('ingredientRows').appendChild(d)}
+function readIngredients(){return [...document.querySelectorAll('.recipe-row')].map(d=>({itemId:d.querySelector('.ingItem').value,qty:+d.querySelector('.ingQty').value*(item(d.querySelector('.ingItem').value)?.type==='count'?1:1)})).filter(i=>i.itemId&&i.qty>0)}
+function calcRecipe(){if(!$('ingredientRows'))return;let sum=0,lines=[];document.querySelectorAll('.recipe-row').forEach(d=>{let x=item(d.querySelector('.ingItem').value),q=+d.querySelector('.ingQty').value||0,c=x?q*rate(x):0;sum+=c;if(x)lines.push(`${x.name}: ${money(c)}`)});$('rcost').textContent=money(sum);$('rbreakdown').textContent=lines.join(' · ')}
+function clearRecipe(){$('recipeForm').reset();$('rid').value='';$('ingredientRows').innerHTML='';addIngredient();$('rserving').value='1 jawan serving';$('recipeTitle').textContent='Create Recipe';calcRecipe()}
+$('recipeForm').addEventListener('submit',e=>{e.preventDefault();let ingredients=readIngredients();if(!ingredients.length){alert('Add at least one ingredient.');return}let id=$('rid').value||uid(),r={id,name:$('rname').value.trim(),category:$('rcat').value,serving:$('rserving').value,ingredients};let i=db.recipes.findIndex(x=>x.id===id);if(i<0)db.recipes.push(r);else db.recipes[i]=r;persist();clearRecipe()});
+function editRecipe(id){let r=recipe(id);if(!r)return;go('recipes');$('rid').value=id;$('rname').value=r.name;$('rcat').value=r.category;$('rserving').value=r.serving;$('ingredientRows').innerHTML='';r.ingredients.forEach(i=>addIngredient(i.itemId,i.qty));$('recipeTitle').textContent='Edit Recipe';calcRecipe()}
+function viewRecipe(id){let r=recipe(id);alert(`${r.name} (${r.category})\nServing: ${r.serving}\n\n${r.ingredients.map(i=>{let x=item(i.itemId);return (x?.name||'Missing item')+': '+i.qty+' '+(x?baseUnit(x.type):'')+' — '+money(x?i.qty*rate(x):0)}).join('\n')}\n\nCurrent estimated cost/serving: ${money(recipeCost(r))}`)}
+function deleteRecipe(id){if(db.meals.some(m=>m.recipeId===id)){alert('This recipe is used by meal history. Keep it for audit.');return}alertDelete('recipe',()=>remove('recipes',id))}
+function renderRecipes(){let q=($('recipeSearch')?.value||'').toLowerCase();$('recipeRows').innerHTML=db.recipes.filter(r=>(r.name+' '+r.category).toLowerCase().includes(q)).map(r=>`<tr><td><b>${esc(r.name)}</b><br><small>${esc(r.serving)}</small></td><td>${esc(r.category)}</td><td>${r.ingredients.length} ingredients</td><td>${money(recipeCost(r))}</td><td><div class="actions"><button onclick="viewRecipe('${r.id}')">View</button><button class="secondary" onclick="editRecipe('${r.id}')">Edit</button><button class="red" onclick="deleteRecipe('${r.id}')">Delete</button></div></td></tr>`).join('')||'<tr><td colspan="5">No recipes saved.</td></tr>'}
+function renderMealSelects(){let rsel=$('mealRecipe').value,csel=$('cookRecipe').value;$('mealRecipe').innerHTML='<option value="">Choose recipe</option>'+options(db.recipes,rsel);$('cookRecipe').innerHTML='<option value="">Choose recipe</option>'+options(db.recipes,csel);let lsel=$('lmember').value;$('lmember').innerHTML='<option value="">Choose jawan</option>'+options(db.members,lsel)}
+function clearMeal(){$('mealForm').reset();$('mealid').value='';$('mealDate').value=today();$('mealServings').value=10;$('mealCost').value='';calcMealEstimate()}
+function calcMealEstimate(){if(!$('mealEstimate'))return;let r=recipe($('mealRecipe')?.value),n=+$('mealServings')?.value||0;if(!r){$('mealEstimate').textContent='Select a recipe to see the ration required.';return}let cost=+$('mealCost').value||recipeCost(r);let need=needs(r,n);$('mealEstimate').innerHTML=`<b>Estimated total: ${money(cost*n)}</b><br>`+Object.entries(need).map(([id,q])=>`${esc(item(id)?.name||'Missing item')}: ${fmtQty(q,item(id)?.type||'weight')}`).join('<br>')}
+$('mealRecipe').addEventListener('change',()=>{$('mealCost').value='';calcMealEstimate()});$('mealServings').addEventListener('input',calcMealEstimate);$('mealCost').addEventListener('input',calcMealEstimate);
+$('mealForm').addEventListener('submit',e=>{
+ e.preventDefault();let r=recipe($('mealRecipe').value),n=+$('mealServings').value;if(!r){alert('Choose a recipe.');return}
+ let need=needs(r,n);for(let [id,q] of Object.entries(need)){let x=item(id);if(!x||x.qty<q){alert('Not enough stock for '+(x?.name||'an ingredient')+'. Required: '+fmtQty(q,x?.type||'weight')+'. Available: '+fmtQty(x?.qty||0,x?.type||'weight'));return}}
+ let id=uid(),cost=+$('mealCost').value||recipeCost(r),m={id,date:$('mealDate').value,time:$('mealTime').value,recipeId:r.id,recipeName:r.name,servings:n,costPerServing:cost,total:cost*n,notes:$('mealNotes').value};
+ for(let [iid,q] of Object.entries(need)){let x=item(iid);let unitRate=rate(x);x.qty-=q;x.value=Math.max(0,x.value-q*unitRate)}
+ db.meals.push(m);
+ persist();clearMeal()
+});
+function viewMeal(id){let m=byId('meals',id);alert(`MEAL RECORD\nDate: ${m.date}\nMeal: ${m.time}\nRecipe: ${m.recipeName}\nServings: ${m.servings}\nCost per serving: ${money(m.costPerServing)}\nTotal cost: ${money(m.total)}\nNotes: ${m.notes||'-'}`)}
+function renderMeals(){$('mealRows').innerHTML=db.meals.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(m=>`<tr><td>${esc(m.date)}</td><td>${esc(m.time)}</td><td>${esc(m.recipeName)}</td><td>${m.servings}</td><td>${money(m.total)}</td><td><button onclick="viewMeal('${m.id}')">View</button></td></tr>`).join('')||'<tr><td colspan="6">No meals recorded.</td></tr>'}
+function generateMenu(){let start=$('weekStart').value||today();$('weekStart').value=start;let type=$('menuType').value,types=type==='all'?['Breakfast','Lunch','Dinner']:[type],recipes=db.recipes;let html='<div class="tablewrap"><table><thead><tr><th>Date</th><th>Meal</th><th>Suggested recipe</th></tr></thead><tbody>';for(let d=0;d<7;d++){let date=new Date(start+'T12:00:00');date.setDate(date.getDate()+d);let ds=date.toISOString().slice(0,10);types.forEach((t,i)=>{let candidates=recipes.filter(r=>r.category.toLowerCase()===t.toLowerCase());if(!candidates.length)candidates=recipes;let pick=candidates.length?candidates[(d*types.length+i)%candidates.length]:null;html+=`<tr><td>${ds}</td><td>${t}</td><td>${pick?esc(pick.name):'<span class="muted">Add recipes first</span>'}</td></tr>`})}html+='</tbody></table></div>'; $('weeklyMenu').innerHTML=html}
+function weeklyMenuText(){let start=$('weekStart').value||today(),type=$('menuType').value,types=type==='all'?['Breakfast','Lunch','Dinner']:[type],out=['WEEKLY MESS MENU',`Starting: ${start}`];for(let d=0;d<7;d++){let date=new Date(start+'T12:00:00');date.setDate(date.getDate()+d);let ds=date.toISOString().slice(0,10);for(let i=0;i<types.length;i++){let t=types[i],a=db.recipes.filter(r=>r.category.toLowerCase()===t.toLowerCase());if(!a.length)a=db.recipes;out.push(`${ds} ${t}: ${a.length?a[(d*types.length+i)%a.length].name:'Recipe not set'}`)}}return out.join('\n')}
+function whatsappMenu(){let t=weeklyMenuText();if(!db.recipes.length){alert('Save some recipes first.');return}window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank')}
+function makeRationList(){let r=recipe($('cookRecipe').value),n=+$('cookServings').value||10,date=$('cookDate').value||today();if(!r){alert('Choose a recipe.');return}let out=[`COOK RATION LIST`,`Date: ${date}`,`Meal/Recipe: ${r.name}`,`Servings: ${n}`,``, `Required ingredients:`];Object.entries(needs(r,n)).forEach(([id,q])=>{let x=item(id);out.push(`- ${x?.name||'Missing item'}: ${fmtQty(q,x?.type||'weight')} (available: ${fmtQty(x?.qty||0,x?.type||'weight')})`) });out.push('',`Estimated recipe cost: ${money(recipeCost(r)*n)}`);$('rationOutput').textContent=out.join('\n')}
+function whatsappRation(){if(!$('rationOutput').textContent.includes('Required ingredients'))makeRationList();let t=$('rationOutput').textContent;if(!t.includes('Required ingredients'))return;window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank')}
+$('ledgerForm').addEventListener('submit',e=>{e.preventDefault();let m=member($('lmember').value);if(!m){alert('Choose a jawan.');return}let amount=+$('lamount').value;if(amount<=0){alert('Enter a valid amount.');return}db.ledger.push({id:uid(),memberId:m.id,type:$('ltype').value,amount,date:$('ldate').value,ref:$('lref').value.trim(),source:'manual'});persist();$('ledgerForm').reset();$('ldate').value=today()});
+function addMealCharges(){if(!db.members.length){alert('Add jawan records first.');return}let m=prompt('Enter meal date (YYYY-MM-DD), or leave blank for all recorded meals:','');let meals=db.meals.filter(x=>!m||x.date===m);if(!meals.length){alert('No matching meals.');return}let active=db.members.filter(x=>x.status==='Active');if(!active.length){alert('No active jawans.');return}let total=meals.reduce((s,x)=>s+x.total,0),per=total/active.length;if(!confirm(`Post ${money(total)} as meal charges split equally across ${active.length} active jawans?\nEach jawan: ${money(per)}\nThis will create account entries.`))return;active.forEach(x=>db.ledger.push({id:uid(),memberId:x.id,type:'charge',amount:Math.round(per*100)/100,date:m||today(),ref:'Shared mess meal charges',source:'meal'}));persist()}
+function renderAccounts(){
+ $('accountRows').innerHTML=db.members.map(m=>{let t=ledgerTotals(m.id);return `<tr><td><b>${esc(m.name)}</b><br><small>${esc(m.no)}</small></td><td>${money(t.deposits)}</td><td>${money(t.meal)}</td><td>${money(t.other)}</td><td class="${balance(m.id)<0?'bad':'good'}">${money(balance(m.id))}</td><td><button onclick="viewMember('${m.id}')">View</button><button class="secondary" onclick="accountHistory('${m.id}')">History</button></td></tr>`}).join('')||'<tr><td colspan="6">No jawans saved.</td></tr>';
+ $('ledgerRows').innerHTML=db.ledger.slice().sort((a,b)=>b.date.localeCompare(a.date)).map(x=>`<tr><td>${esc(x.date)}</td><td>${esc(member(x.memberId)?.name||'Unknown')}</td><td>${x.type==='deposit'?'Deposit':'Charge'}</td><td>${money(x.amount)}</td><td>${esc(x.ref||x.source||'-')}</td><td><button onclick="viewTransaction('${x.id}')">View</button></td></tr>`).join('')||'<tr><td colspan="6">No transactions.</td></tr>'
 }
-function renderDraft(){
- $('draftIngredients').innerHTML=draft.length?draft.map((x,i)=>`<div class="item row"><span>${esc(x.name)} — ${x.qty} ${esc(x.unit)}</span><button class="danger" onclick="removeDraft(${i})">Hatao</button></div>`).join(''):'<p class="small">Abhi ingredients add nahi hue.</p>';
+function accountHistory(id){let m=member(id),a=db.ledger.filter(x=>x.memberId===id);alert(`ACCOUNT HISTORY: ${m.name}\n\n`+a.map(x=>`${x.date} | ${x.type} | ${money(x.amount)} | ${x.ref||x.source||''}`).join('\n')+`\n\nCurrent balance: ${money(balance(id))}`)}
+function viewTransaction(id){let x=byId('ledger',id);alert(`Transaction\nDate: ${x.date}\nJawan: ${member(x.memberId)?.name||'Unknown'}\nType: ${x.type}\nAmount: ${money(x.amount)}\nDescription: ${x.ref||'-'}`)}
+function renderReports(){if(!$('reportOutput'))return;let from=$('reportFrom')?.value||'',to=$('reportTo')?.value||'',within=x=>(!from||x.date>=from)&&(!to||x.date<=to);let p=db.purchases.filter(within),m=db.meals.filter(within),l=db.ledger.filter(within);let purchaseTotal=p.reduce((s,x)=>s+x.cost,0),mealTotal=m.reduce((s,x)=>s+x.total,0),depositTotal=l.filter(x=>x.type==='deposit').reduce((s,x)=>s+x.amount,0),chargeTotal=l.filter(x=>x.type==='charge').reduce((s,x)=>s+x.amount,0);
+ $('reportOutput').innerHTML=`<div class="stats"><div class="stat"><small>Purchases in period</small><strong>${money(purchaseTotal)}</strong></div><div class="stat"><small>Meals estimated cost</small><strong>${money(mealTotal)}</strong></div><div class="stat"><small>Account deposits</small><strong>${money(depositTotal)}</strong></div><div class="stat"><small>Account charges</small><strong>${money(chargeTotal)}</strong></div></div><div class="card"><h3>Stock on hand</h3><div class="tablewrap"><table><thead><tr><th>Item</th><th>Quantity</th><th>Stock value</th></tr></thead><tbody>${db.items.map(x=>`<tr><td>${esc(x.name)}</td><td>${fmtQty(x.qty,x.type)}</td><td>${money(x.value)}</td></tr>`).join('')||'<tr><td colspan="3">No items.</td></tr>'}</tbody></table></div></div><div class="card"><h3>Account balances</h3><div class="tablewrap"><table><thead><tr><th>Jawan</th><th>Deposits</th><th>Charges</th><th>Balance</th></tr></thead><tbody>${db.members.map(x=>{let t=ledgerTotals(x.id);return `<tr><td>${esc(x.name)}</td><td>${money(t.deposits)}</td><td>${money(t.meal+t.other)}</td><td>${money(balance(x.id))}</td></tr>`}).join('')}</tbody></table></div></div>`;
 }
-function removeDraft(i){draft.splice(i,1);renderDraft();}
-function resetRecipe(){ $('recipeId').value='';$('rName').value='';$('rBase').value=data.men;$('rCategory').value='Lunch';draft=[];$('recipeHeading').textContent='Nayi Recipe Add Karein';renderDraft();}
-function saveRecipe(){
- const name=$('rName').value.trim(),base=num($('rBase').value),category=$('rCategory').value,id=$('recipeId').value;
- if(!name||base<1||!draft.length){alert('Recipe ka naam, base servings aur kam se kam ek ingredient zaroor bharein.');return;}
- const obj={id:id||uid(),name,base,category,ingredients:draft.map(x=>({...x}))};
- const idx=data.recipes.findIndex(x=>x.id===obj.id);
- if(idx>=0)data.recipes[idx]=obj;else data.recipes.push(obj);
- save();resetRecipe();renderAll();alert('Recipe save ho gayi.');
-}
-function editRecipe(id){
- const r=data.recipes.find(x=>x.id===id);if(!r)return;
- $('recipeId').value=r.id;$('rName').value=r.name;$('rBase').value=r.base;$('rCategory').value=r.category;
- draft=r.ingredients.map(x=>({...x}));$('recipeHeading').textContent='Recipe Edit Karein';renderDraft();showTab('recipes');
- window.scrollTo({top:0,behavior:'smooth'});
-}
-function deleteRecipe(id){
- if(!confirm('Recipe delete karein? Is recipe ke menu entries bhi hat jayengi.'))return;
- data.recipes=data.recipes.filter(x=>x.id!==id);data.menu=data.menu.filter(x=>x.recipeId!==id);save();renderAll();
-}
-function renderRecipes(){
- $('recipeList').innerHTML=data.recipes.length?data.recipes.map(r=>`<div class="item"><strong>${esc(r.name)}</strong><div class="small">${esc(r.category)} · Base servings ${r.base}<br>${r.ingredients.map(x=>`${esc(x.name)}: ${x.qty} ${esc(x.unit)}`).join(' • ')}</div><div class="actions"><button class="secondary" onclick="editRecipe('${r.id}')">Edit</button><button class="danger" onclick="deleteRecipe('${r.id}')">Delete</button></div></div>`).join(''):'<div class="empty">Abhi recipe nahi hai. Upar se pehli recipe add karein.</div>';
- $('mRecipe').innerHTML=data.recipes.length?data.recipes.map(r=>`<option value="${r.id}">${esc(r.name)} (${esc(r.category)})</option>`).join(''):'<option value="">Pehle recipe banayein</option>';
-}
-function addMenu(){
- const day=$('mDay').value,meal=$('mMeal').value,recipeId=$('mRecipe').value;
- if(!data.recipes.some(r=>r.id===recipeId)){alert('Pehle recipe add karein.');return;}
- data.menu.push({id:uid(),day,meal,recipeId});save();renderAll();alert('Menu mein add ho gaya.');
-}
-function removeMenu(id){data.menu=data.menu.filter(x=>x.id!==id);save();renderAll();}
-function recipeFor(id){return data.recipes.find(r=>r.id===id);}
-function renderMenu(){
- $('menuList').innerHTML=DAYS.map(day=>{
-  const entries=data.menu.filter(m=>m.day===day);
-  return `<div class="item"><strong>${day}</strong>${entries.length?entries.map(m=>`<div class="row" style="margin:8px 0"><span>${esc(m.meal)}: ${esc(recipeFor(m.recipeId)?.name||'Recipe removed')}</span><button class="danger" onclick="removeMenu('${m.id}')">Hatao</button></div>`).join(''):'<div class="small">Menu nahi banaya</div>'}</div>`;
- }).join('');
- const today=DAYS[(new Date().getDay()+6)%7],entries=data.menu.filter(m=>m.day===today);
- $('todayMenu').innerHTML=entries.length?entries.map(m=>`<div class="item"><strong>${esc(m.meal)}</strong>${esc(recipeFor(m.recipeId)?.name||'')}</div>`).join(''):`<div class="empty">${today} ka menu abhi nahi hai.</div>`;
-}
-function convert(q,unit){
- unit=unit.toLowerCase();
- if(unit==='gram')return {q:q/1000,unit:'kg'};
- if(unit==='ml')return {q:q/1000,unit:'litre'};
- return {q,unit};
-}
-function getRequirement(){
- const period=$('rPeriod').value,day=$('rDay').value,totals={};
- data.menu.filter(m=>period==='week'||m.day===day).forEach(m=>{
-  const r=recipeFor(m.recipeId);if(!r)return;
-  r.ingredients.forEach(i=>{
-   const c=convert(num(i.qty)*data.men/Math.max(1,num(r.base)),i.unit);
-   const key=i.name.trim().toLowerCase()+'|'+c.unit;
-   if(!totals[key])totals[key]={name:i.name,unit:c.unit,qty:0};
-   totals[key].qty+=c.q;
-  });
- });
- return Object.values(totals).sort((a,b)=>a.name.localeCompare(b.name));
-}
-function renderRation(){
- const period=$('rPeriod').value;$('dayChoice').style.display=period==='day'?'block':'none';
- const totals=getRequirement();
- $('rationResult').innerHTML=totals.length?`<div class="small">Servings per recipe: ${data.men}. ${period==='week'?'Poora hafta':esc($('rDay').value)} ki total estimated requirement.</div><div class="tablewrap"><table><thead><tr><th>Ingredient</th><th>Required</th><th>Unit</th></tr></thead><tbody>${totals.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.qty.toLocaleString('en-IN',{maximumFractionDigits:3})}</td><td>${esc(x.unit)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">Ration nikalne ke liye pehle recipes mein ingredients add karein aur weekly menu banayein.</div>';
- renderStockCheck();
-}
-function saveStock(){
- const id=$('stockId').value,name=$('stName').value.trim(),qty=Number($('stQty').value),unit=$('stUnit').value;
- if(!name||!Number.isFinite(qty)||qty<0){alert('Item aur sahi stock quantity bharein.');return;}
- const obj={id:id||uid(),name,qty,unit},idx=data.stock.findIndex(x=>x.id===obj.id);
- if(idx>=0)data.stock[idx]=obj;else data.stock.push(obj);
- $('stockId').value='';$('stName').value='';$('stQty').value='';save();renderAll();
-}
-function editStock(id){const x=data.stock.find(x=>x.id===id);if(!x)return;$('stockId').value=x.id;$('stName').value=x.name;$('stQty').value=x.qty;$('stUnit').value=x.unit;}
-function deleteStock(id){data.stock=data.stock.filter(x=>x.id!==id);save();renderAll();}
-function renderStock(){
- $('stockList').innerHTML=data.stock.length?data.stock.map(x=>`<div class="item"><strong>${esc(x.name)}</strong><span>${x.qty} ${esc(x.unit)}</span><div class="actions"><button class="secondary" onclick="editStock('${x.id}')">Edit</button><button class="danger" onclick="deleteStock('${x.id}')">Delete</button></div></div>`).join(''):'<div class="empty">Stock item add nahi hua.</div>';
- renderStockCheck();
-}
-function renderStockCheck(){
- if(!$('stockCheck'))return;
- const req=getRequirement();
- if(!req.length){$('stockCheck').innerHTML='<div class="empty">Pehle weekly menu aur recipes banayein.</div>';return;}
- $('stockCheck').innerHTML=req.map(r=>{
-  const s=data.stock.find(x=>x.name.trim().toLowerCase()===r.name.trim().toLowerCase()&&convert(1,x.unit).unit===r.unit);
-  const have=s?convert(s.qty,s.unit).q:0,remaining=have-r.qty;
-  return `<div class="item"><strong>${esc(r.name)}</strong>Requirement: ${r.qty.toFixed(3)} ${esc(r.unit)} · Stock: ${have.toFixed(3)} ${esc(r.unit)}<br><span style="color:${remaining<0?'#b33131':'#176b45'}">${remaining<0?'Kami: '+(-remaining).toFixed(3):'Bachne wala: '+remaining.toFixed(3)} ${esc(r.unit)}</span></div>`;
- }).join('');
-}
-function makeReminder(){
- const today=DAYS[(new Date().getDay()+6)%7],entries=data.menu.filter(m=>m.day===today);
- const list=entries.length?entries.map(m=>m.meal+': '+(recipeFor(m.recipeId)?.name||'')).join('\n'):'Aaj ka menu abhi set nahi hai.';
- $('reminderText').value=`Namaste Cook ji,\nAaj ka menu (${today}):\n${list}\n\nKripya ingredients aur ration ki taiyari check kar lein. Dhanyavaad.`;
-}
-function sendReminder(){
- const msg=$('reminderText').value.trim();if(!msg){alert('Message likhein.');return;}
- let phone=$('cookPhone').value.replace(/[^\d]/g,'');
- if(phone&&phone.length<8){alert('WhatsApp number country code ke saath check karein.');return;}
- const url=phone?'https://wa.me/'+phone+'?text='+encodeURIComponent(msg):'https://wa.me/?text='+encodeURIComponent(msg);
- window.open(url,'_blank');
-}
-function renderStats(){
- $('sMen').textContent=data.men;$('sRecipes').textContent=data.recipes.length;$('sMenu').textContent=data.menu.length;$('sStock').textContent=data.stock.length;
-}
-function renderAll(){renderStats();renderRecipes();renderMenu();renderDraft();renderStock();renderRation();}
-load();
+function downloadCSV(){let rows=[['Report','Date','Name','Quantity','Amount','Details']];db.purchases.forEach(x=>rows.push(['Purchase',x.date,x.itemName,x.enteredQty+' '+x.enteredUnit,x.cost,x.vendor||'']));db.meals.forEach(x=>rows.push(['Meal',x.date,x.recipeName,x.servings,x.total,x.time]));db.ledger.forEach(x=>rows.push(['Account',x.date,member(x.memberId)?.name||'', '',x.amount,x.type+' '+(x.ref||'')]));let csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n');downloadBlob(csv,'crpf-mess-report.csv','text/csv;charset=utf-8')}
+function downloadBlob(data,name,type){let b=new Blob([data],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function exportData(){downloadBlob(JSON.stringify(db,null,2),'crpf-mess-backup-'+today()+'.json','application/json')}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x||!Array.isArray(x.members)||!Array.isArray(x.items)||!Array.isArray(x.purchases)||!Array.isArray(x.recipes)||!Array.isArray(x.meals)||!Array.isArray(x.ledger))throw Error('Invalid backup');if(!confirm('Restore backup and replace the data currently saved in this browser? Export your current data first if needed.'))return;db={...blank(),...x};persist();alert('Backup restored.')}catch(err){alert('This file is not a valid Smart Mess backup.')}};r.readAsText(f);e.target.value=''}
+function resetAll(){if(!confirm('WARNING: Delete ALL jawans, stock, purchases, recipes, meals and accounts from this browser?'))return;if(!confirm('Are you absolutely sure? Export a backup first.'))return;db=blank();persist();clearMember();clearItem();clearPurchase();clearRecipe();clearMeal()}
+$('pdate').value=today();$('mealDate').value=today();$('ldate').value=today();$('cookDate').value=today();$('weekStart').value=today();$('reportFrom').value=today().slice(0,8)+'01';$('reportTo').value=today();
+clearRecipe();renderAll();
 </script>
 </body>
 </html>
-
